@@ -1,0 +1,11 @@
+<div class="mx-auto max-w-5xl p-6">
+    <div class="mb-6">
+        <app-view-toggle [current]="view()" (changed)="view.set($event)" />
+    </div>
+
+    @if (view() === 'task') {
+    <app-project-list />
+    } @else {
+    <app-user-list />
+    }
+</div>

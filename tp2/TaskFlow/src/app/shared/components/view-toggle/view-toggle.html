@@ -1,0 +1,14 @@
+<div class="inline-flex rounded-lg border border-slate-300 overflow-hidden">
+  <button type="button"
+    class="px-4 py-2 text-sm font-medium"
+    [class]="current() === 'task' ? 'bg-indigo-600 text-white' : 'bg-white text-slate-700 hover:bg-slate-100'"
+    (click)="changed.emit('task')">
+    Par tâche
+  </button>
+  <button type="button"
+    class="px-4 py-2 text-sm font-medium"
+    [class]="current() === 'user' ? 'bg-indigo-600 text-white' : 'bg-white text-slate-700 hover:bg-slate-100'"
+    (click)="changed.emit('user')">
+    Par user
+  </button>
+</div>

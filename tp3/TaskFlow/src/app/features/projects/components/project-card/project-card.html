@@ -1,0 +1,57 @@
+<div appHighlight="#e0f2fe" class="bg-white shadow-md rounded-lg p-6">
+    <h2 class="text-xl font-bold">
+        {{ project().name | uppercase }}
+    </h2>
+
+    <p class="text-gray-600 mt-2">
+        {{ project().description }}
+    </p>
+
+    <p class="mt-2 text-sm">
+        Début : {{ project().startDate | date:'dd MMMM yyyy' }}
+    </p>
+
+    <p class="text-sm">
+        Budget : {{ project().budget | currency:'TND':'code':'1.2-2' }}
+    </p>
+
+    <p class="mt-3">
+        Statut :
+        <span class="font-semibold">
+            {{ project().status }}
+        </span>
+    </p>
+
+    @if (project().tasks.length > 0) {
+    <p class="text-sm mt-2">Réalisation : {{ rate | percent:'1.0-0' }}</p>
+    <p class="text-sm">Coût moyen par tâche : {{ avgCost | number:'1.0-0' }} TND</p>
+
+    <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+        <div class="h-2 rounded-full" [ngStyle]="{ 'width': (rate * 100) + '%', 'background-color': barColor }">
+        </div>
+    </div>
+    }
+
+    @if (project().tasks.length === 0) {
+    <p class="mt-2 italic">Aucune tâche pour le moment</p>
+    } @else if (rate === 1) {
+    <p class="mt-2 italic">Projet terminé</p>
+    } @else if (rate > 0) {
+    <p class="mt-2 italic">En progression</p>
+    } @else {
+    <p class="mt-2 italic">Pas encore démarré</p>
+    }
+
+    <div class="flex gap-3 mt-3 text-sm">
+        @for (p of byPriority | keyvalue; track p.key) {
+        <span>{{ p.key }} : {{ p.value }}</span>
+        }
+    </div>
+
+    <app-task-list [tasks]="project().tasks | slice:0:3">
+    </app-task-list>
+
+    <button (click)="selectProject()" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+        Sélectionner
+    </button>
+</div>

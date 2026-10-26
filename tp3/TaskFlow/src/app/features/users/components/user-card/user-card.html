@@ -1,0 +1,30 @@
+<article appHighlight class="rounded-xl bg-white p-5 shadow">
+  <header class="flex items-start justify-between">
+    <div class="flex items-center gap-3">
+      <div class="flex h-10 w-10 items-center justify-center rounded-full font-bold text-white"
+        [ngStyle]="{ 'background-color': roleColors[user().role] ?? '#6b7280' }">
+        {{ user().name | initials }}
+      </div>
+      <div>
+        <h3 class="text-lg font-bold">{{ user().name | titlecase }}</h3>
+        <p class="text-sm text-slate-500">{{ user().email | lowercase }} · {{ user().role }}</p>
+      </div>
+    </div>
+    <span class="rounded-full px-3 py-1 text-xs font-semibold"
+      [ngClass]="user().active ? 'bg-green-100 text-green-700' : 'bg-slate-200 text-slate-600'">
+      {{ user().active ? 'Actif' : 'Inactif' }}
+    </span>
+  </header>
+
+  <div class="mt-4 grid grid-cols-3 gap-2 text-center text-sm">
+    <div class="rounded bg-amber-50 p-2"><b>{{ todo() }}</b><br>À faire</div>
+    <div class="rounded bg-blue-50 p-2"><b>{{ inProgress() }}</b><br>En cours</div>
+    <div class="rounded bg-green-50 p-2"><b>{{ done() }}</b><br>Terminées</div>
+  </div>
+
+  @for (group of groups(); track group.projectName) {
+  <app-user-project-group [projectName]="group.projectName" [tasks]="group.tasks" />
+  } @empty {
+  <app-empty-state message="Aucune tâche assignée" />
+  }
+</article>

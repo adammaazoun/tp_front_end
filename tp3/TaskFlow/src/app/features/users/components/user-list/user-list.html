@@ -1,0 +1,10 @@
+<input type="text" placeholder="Rechercher un utilisateur…" class="w-full rounded-lg border border-slate-300 px-3 py-2"
+    [value]="search()" (input)="search.set($any($event.target).value)" />
+
+<div class="mt-4 grid gap-4 md:grid-cols-2">
+    @for (user of filteredUsers(); track user.id) {
+    <app-user-card [user]="user" [projects]="projects()" />
+    } @empty {
+    <app-empty-state message="Aucun utilisateur ne correspond à votre recherche" />
+    }
+</div>

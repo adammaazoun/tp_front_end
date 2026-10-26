@@ -1,0 +1,41 @@
+<div class="mt-4">
+  <h3 class="font-semibold mb-3">Tâches</h3>
+
+  @if (tasks().length === 0) {
+    <p class="text-gray-500">Aucune tâche.</p>
+  } @else {
+    <div class="space-y-3">
+      @for (task of tasks(); track task.id) {
+        <div appHighlight appOverdue
+             [dueDate]="task.dueDate" [done]="task.status === 'Terminé'"
+             class="border-l-4 p-3 mb-2"
+             [ngClass]="statusBorder[task.status]">
+
+          <h4 class="font-medium">
+            @switch (task.priority) {
+              @case ('Haute') { ▲ Haute }
+              @case ('Moyenne') { ● Moyenne }
+              @default { ▼ Basse }
+            }
+            {{ task.title }}
+          </h4>
+
+          @if (task.dueDate; as due) {
+            <p class="text-sm">{{ due | date:'dd/MM/yyyy' }} · {{ due | deadline }}</p>
+          } @else {
+            <p class="text-sm">Aucune échéance</p>
+          }
+
+          @if (task.description) {
+            <p class="relative inline-block text-sm text-gray-600"
+               [appTooltip]="task.description">
+              {{ task.description | truncate:40 }}
+            </p>
+          }
+
+        
+        </div>
+      }
+    </div>
+  }
+</div>
